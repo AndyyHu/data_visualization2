@@ -1,0 +1,93 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 800,
+  "height": 600,
+  "title": "Country Growth (%) vs AHS Weighted Average (%)",
+  "data": {
+    "url": "https://raw.githubusercontent.com/AndyyHu/data_visualization2/main/data/scatter_plot.csv"
+  },
+  "params": [
+    {
+      "name": "Year",
+      "value": 2015,
+      "bind": {
+        "input": "range",
+        "min": 2015,
+        "max": 2021,
+        "step": 1,
+        "name": "Year Selection: "
+      }
+    }
+  ],
+  "transform": [
+    {"filter": "datum.Year == Year"},
+    {"filter": "datum['Country Growth (%)'] != null && datum['AHS Weighted Average (%)'] != null"},
+    {"filter": "datum['Country Growth (%)'] != 0"},
+    {
+      "window": [
+        {"op": "rank", "field": "AHS Weighted Average (%)", "as": "rank"}
+      ],
+      "sort": [{"field": "AHS Weighted Average (%)", "order": "descending"}]
+    }
+  ],
+  "encoding": {
+    "x": {
+      "field": "Country Growth (%)",
+      "type": "quantitative",
+      "title": "Country Growth (%)"
+    },
+    "y": {
+      "field": "AHS Weighted Average (%)",
+      "type": "quantitative",
+      "title": "AHS Weighted Average (%)"
+    }
+  },
+  "layer": [
+    {
+      "mark": "circle",
+      "encoding": {
+        "size": {
+          "field": "AHS Weighted Average (%)",
+          "type": "quantitative",
+          "scale": {
+            "type": "linear",
+            "range": [10, 500]
+          },
+          "legend": {"title": "AHS Weighted Average (%)"}
+        },
+        "opacity": {"value": 0.6},
+        "tooltip": [
+          {"field": "Country", "type": "nominal"},
+          {"field": "Country Growth (%)", "type": "quantitative"},
+          {"field": "AHS Weighted Average (%)", "type": "quantitative"}
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "baseline": "middle",
+        "dx": 12,
+        "dy": 12,
+        "fontSize": 10,
+        "fontStyle": "italic"
+      },
+      "encoding": {
+        "text": {"field": "Country", "type": "nominal"},
+        "opacity": {
+          "condition": {
+            "test": "datum.rank == 1",
+            "value": 1
+          },
+          "value": 0
+        },
+        "tooltip": [
+          {"field": "Country", "type": "nominal"},
+          {"field": "Country Growth (%)", "type": "quantitative"},
+          {"field": "AHS Weighted Average (%)", "type": "quantitative"}
+        ]
+      }
+    }
+  ]
+}
