@@ -1,27 +1,110 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <!-- Import Vega & Vega-Lite (does not have to be from CDN) -->
-  <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.17.0"></script>
-  
-  
-  <!-- CSS file -->
-  <link rel="stylesheet" type="text/css" href="css/styles.css" media="all">
-  
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vega-Lite Bar Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+    <style>
+        body {
+    background-color: #ADD8E6; 
+    display: flex;
+    justify-content: flex-start; 
+    align-items: center;
+    min-height: 100vh;
+    flex-direction: column;
+    padding: 20px 0; 
+}
+.page {
+    width: 80%; 
+    text-align: center; 
+}
+.description {
+    margin: 10px;
+}
+.vis-container {
+    margin: auto; 
+}
+
+#spec5, #spec1 {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+    </style>
 </head>
+
 <body>
-  
-<div id="scatter_plot"></div>
 
-<script type="text/javascript">
+    <div class="page">
 
-  var spec2 = "js/scatter_plot_interactive.vg.json";
-  vegaEmbed('#scatter_plot', spec2).then(function(result) {
-    // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
-  }).catch(console.error);
-</script>
+        <!-- Title Section -->
+        <h1>Global Trade Dynamics (import and export in the world)</h1>
+        <p>Detailed visualizations representing global trade patterns and their dynamics over the years.</p>
+
+        <!-- Choropleth Map -->
+        <h2>Choropleth Map: Global Import Patterns</h2>
+        <p>This map shows the global import consumption trends in 2021 through 
+            color shades. Dark colors represent countries with high import values, while light colors represent 
+            countries with low import values. It can be observed from the figure that regions 
+            such as North America, Europe, parts of Asia and Australia are darker, which means their 
+            import values are higher; while regions in Africa and parts of South America are lighter, and their import 
+            values may be lower. This visualization helps us understand global trade dynamics.</p>
+        <div id="spec2" class="vis-container"></div>
+
+        <!-- Scatter Plot -->
+        <h2>Scatter Plot: Comparative Analysis of Country Growth versus Trade Weighted Average for 2015-2021</h2>
+        <p>This scatter plot for 2015 visualizes the relationship between countries' growth rates and their 
+            AHS weighted averages, likely indicating trade tariffs. Most countries cluster near zero growth with low tariffs, 
+            but outliers like Argentina showcase deviations. Essentially, the chart offers a snapshot of economic growth in relation to trade duties for various countries.</p>
+        <div id="spec3" class="vis-container"></div>
+
+        <!-- Bubble Chart -->
+        <h2>Bubble Chart: Visualizing Trade Balance in Relation to Country and Global Growth Rates for 2015-2021</h2>
+        <p>The Bubble Chart for 2015 illustrates the relationship between individual countries' growth rates and world growth, with the size of each bubble 
+            denoting the magnitude of a country's trade balance. Larger bubbles represent significant trade surpluses or deficits, offering insights into countries' 
+            economic positions relative to global growth. Essentially, this visualization provides a concise overview of how countries' trade balances align with their growth rates in comparison to worldwide economic performance.</p>
+        <div id="spec4" class="vis-container"></div>
+
+        <!-- Heatmap & Bar Chart -->
+        <div style="display: flex; justify-content: space-between;">
+            <div style="width: 50%;">
+                <h2>Heatmap: Annual Evolution of MFN Trade Percentages for 2015-2021</h2>
+                <p>This heatmap displays the evolution of trade dynamics from 2015 to 2021 based on the MFN (Most Favored Nation) Simple Average percentages. The shades of blue represent the 
+                    magnitude of the MFN Simple Average, with darker hues indicating higher percentages, thus signifying robust trade dynamics. The countries showcased, such as Burundi, Croatia, 
+                    and Iceland, to name a few, are the top 10 performers based on their trade percentages within this period. This visualization provides a concise and comprehensive view of how 
+                    trade has progressed for these leading countries over seven years.</p>
+                <div id="spec5" class="vis-container"></div>
+            </div>
+            <div style="width: 50%;">
+                <h2>Bar Chart: Comparative Analysis of Top & Bottom Trading Nations: AHS Weighted Average (2021)</h2>
+                <p>This bar chart offers a detailed visualization of the trade volumes in the year 2021 based on the AHS (Ad-valorem Harmonized System) Weighted Average percentages. The chart highlights 
+                    the top 10 and bottom 10 countries in terms of their trade percentages. With the longer bars representing higher AHS Weighted Averages, This representation aids in discerning the leading and lagging nations in global trade for the year 2021.</p>
+                <div id="spec1" class="vis-container"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <script type="text/javascript">
+        var spec1 = "js/bar_chart.json";
+        vegaEmbed('#spec1', spec1, {"action" : false}).catch(console.error);
+
+        var spec2 = "js/choropleth_map.json";
+        vegaEmbed('#spec2', spec2, {"action" : false}).catch(console.error);
+
+        var spec3 = "js/scatter_plot.json";
+        vegaEmbed('#spec3', spec3, {"action" : false}).catch(console.error);
+
+        var spec4 = "js/bubble_chart.json";
+        vegaEmbed('#spec4', spec4, {"action" : false}).catch(console.error);
+
+        var spec5 = "js/heatmap.json";
+        vegaEmbed('#spec5', spec5, {"action" : false}).catch(console.error);
+    </script>
 
 </body>
 </html>

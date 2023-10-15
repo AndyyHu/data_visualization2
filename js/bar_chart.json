@@ -1,0 +1,52 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "data": {
+    "url": "https://raw.githubusercontent.com/AndyyHu/data_visualization2/main/data/bar_chart.csv"
+  },
+  "title": "Top 10 and Bottom 10 Countries with AHS Weighted Average in Selected Year",
+  "width": 500,
+  "height": 300,
+  "params": [{
+    "name": "selectedYear",
+    "value": 2021,
+    "bind": {
+      "input": "select",
+      "options": [2015, 2016, 2017, 2018, 2019, 2020, 2021],
+      "name": "Select Year"
+    }
+  }],
+  "transform": [
+    {
+      "filter": "datum.Year == selectedYear"
+    },
+    {
+      "window": [{"op": "row_number", "as": "rank"}],
+      "sort": [{"field": "AHS Weighted Average (%)", "order": "descending"}],
+      "ignorePeers": true
+    },
+    {"joinaggregate": [{"op": "max", "field": "rank", "as": "total"}]},
+    {"filter": "(datum.rank <= 10) || (datum.rank > datum.total - 10)"}
+  ],
+  "mark": "bar",
+  "encoding": {
+    "y": {
+      "field": "Country",
+      "type": "ordinal",
+      "title": "Country",
+      "sort": "-x",
+      "axis": {
+        "labelAngle": 0,
+        "labelLimit": 200
+      }
+    },
+    "x": {
+      "field": "AHS Weighted Average (%)",
+      "type": "quantitative",
+      "title": "AHS Weighted Average (%)",
+      "scale": {"zero": false}
+    },
+    "tooltip": [
+      {"field": "AHS Weighted Average (%)", "type": "quantitative"}
+    ]
+  }
+}

@@ -1,0 +1,49 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "params": [
+      {
+        "name": "topCountries",
+        "value": 10,
+        "bind": {
+          "input": "range",
+          "min": 1,
+          "max": 100,
+          "step": 1,
+          "name": "Select Top N Countries:"
+        }
+      }
+    ],
+    "data": {
+      "url": "https://raw.githubusercontent.com/AndyyHu/data_visualization2/main/data/Heatmap.csv"
+    },
+    "title": {
+      "text": "MFN Simple Average (%) by Country and Year",
+      "fontSize": 20,
+      "anchor": "middle"
+    },
+    "transform": [
+      {"window": [{"op": "rank", "as": "rank"}], "sort": [{"field": "MFN Simple Average (%)", "order": "descending"}]},
+      {"filter": "datum.rank <= topCountries"}
+    ],
+    "mark": "rect",
+    "encoding": {
+      "y": {"field": "Country", "type": "nominal", "title": "Country"},
+      "x": {"field": "Year", "type": "ordinal", "title": "Year"},
+      "color": {
+        "field": "MFN Simple Average (%)",
+        "type": "quantitative",
+        "title": "MFN Simple Average (%)",
+        "scale": {"scheme": "blues"}
+      },
+      "tooltip": [
+        {"field": "Country", "type": "nominal"},
+        {"field": "Year", "type": "ordinal"},
+        {"field": "MFN Simple Average (%)", "type": "quantitative"}
+      ]
+    },
+    "config": {
+      "axis": {"grid": true, "tickBand": "extent"},
+      "title": {"fontSize": 16}
+    }
+  }
+  
