@@ -1,0 +1,64 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "data": {
+      "url": "https://raw.githubusercontent.com/AndyyHu/data_visualization2/main/data/bubble_chart.csv",
+      "format": {
+        "type": "csv"
+      }
+    },
+    "width": 800,
+    "height": 500,
+    "params": [
+      {
+        "name": "yearParam",
+        "value": 2015,
+        "bind": {
+          "input": "select",
+          "options": [2015, 2016, 2017, 2018, 2019, 2020, 2021],
+          "name": "Year"
+        }
+      }
+    ],
+    "mark": "circle",
+    "encoding": {
+      "x": {
+        "field": "World Growth (%)",
+        "type": "quantitative",
+        "title": "World Growth (%)"
+      },
+      "y": {
+        "field": "Country Growth (%)",
+        "type": "quantitative",
+        "title": "Country Growth (%)"
+      },
+      "size": {
+    "field": "Export (US$ Thousand)",
+    "type": "quantitative",
+    "title": "Export (US$ Thousand)",
+    "scale": {
+      "range": [100, 2000]
+    }
+  },
+      "color": {
+        "field": "Country",
+        "type": "nominal",
+        "legend": {"title": "Country"}
+      },
+      "tooltip": [
+        {"field": "Country", "type": "nominal"},
+        {"field": "World Growth (%)", "type": "quantitative"},
+        {"field": "Country Growth (%)", "type": "quantitative"},
+        {"field": "Export (US$ Thousand)", "type": "quantitative"},
+        {"field": "Year", "type": "ordinal"}
+      ]
+    },
+    "transform": [
+      {
+        "filter": "datum.Year == yearParam"
+      },
+      {
+        "filter": "(datum['Export (US$ Thousand)'] !== 0) && (datum['World Growth (%)'] !== 0) && (datum['Country Growth (%)'] !== 0)"
+      }
+    ]
+  }
+  
